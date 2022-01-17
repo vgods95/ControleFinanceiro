@@ -1,6 +1,12 @@
+using ControleFinanceiro.BLL.Models;
+using ControleFinanceiro.DAL;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<Contexto>(op => op.UseSqlServer(@"Server=ACCOUNT-VINICIU\SQLEXPRESS;Database=GerenciadorFinanceiro;Initial Catalog=GerenciadorFinanceiro;Integrated Security=True;Trusted_Connection=True;"));
+builder.Services.AddIdentity<Usuario, Funcao>().AddEntityFrameworkStores<Contexto>();
 builder.Services.AddCors();
 builder.Services.AddSpaStaticFiles(diretorio =>
 {
