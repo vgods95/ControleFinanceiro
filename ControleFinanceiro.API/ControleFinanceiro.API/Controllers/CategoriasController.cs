@@ -17,13 +17,13 @@ namespace ControleFinanceiro.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Categoria>>> GetCategorias()
+        public async Task<ActionResult<IEnumerable<Categoria>>> Get()
         {
-            return await _context.Categorias.ToListAsync();
+            return await _context.Categorias.Include(c => c.Tipo).ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Categoria>> GetCategoria(int id)
+        public async Task<ActionResult<Categoria>> Get(int id)
         {
             var categoria = await _context.Categorias.FindAsync(id);
 
@@ -34,7 +34,7 @@ namespace ControleFinanceiro.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategoria(int id, Categoria categoria)
+        public async Task<IActionResult> Put(int id, Categoria categoria)
         {
             if (id != categoria.CategoriaId)
                 return BadRequest();
@@ -57,16 +57,16 @@ namespace ControleFinanceiro.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Categoria>> PostCategoria(Categoria categoria)
+        public async Task<ActionResult<Categoria>> Post(Categoria categoria)
         {
             _context.Categorias.Add(categoria);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCategoria", new {id = categoria.CategoriaId}, categoria);
+            return CreatedAtAction("GetCategoria", new { id = categoria.CategoriaId }, categoria);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Categoria>> DeleteCategoria(int id)
+        public async Task<ActionResult<Categoria>> Delete(int id)
         {
             var categoria = await _context.Categorias.FindAsync(id);
 
